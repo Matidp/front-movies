@@ -1,0 +1,62 @@
+
+
+<div class="container" infiniteScroll
+[infiniteScrollDistance]="20"
+[infiniteScrollThrottle]="500"
+(scrolled)="onScroll()">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Title</th>
+                <th scope="col">genres</th>
+                <th scope="col">Directors</th>
+                <th scope="col">Year</th>
+                <th scope="col">countries</th>
+            </tr>
+        </thead>
+        <tbody *ngFor="let movie of movieService.movies ; let i=index ">
+            <tr [ngClass]="(i%4===0) ? 'table-primary':
+                (i%4===1) ? 'table-secondary' :
+                (i%4===2) ? 'table-success' : 
+                (i%4===3) ? 'table-warning':
+                'table-info'">
+                <th scope="row">{{movie.title}}</th>
+                
+                <td>
+                    <ul>
+                        <li *ngFor="let genre of movie.genres">
+                            {{genre}} 
+                        </li>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li *ngFor="let director of movie.directors">
+                            {{director}} 
+                        </li>
+                    </ul>
+                </td>
+
+                <td>{{movie.year}}</td>
+
+                <td>
+                    <ul>
+                        <li *ngFor="let countrie of movie.countries">
+                            {{countrie}} 
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+            
+        </tbody>
+    </table>
+</div>
+
+
+<loading-spinner *ngIf="!finished"></loading-spinner>
+
+<div class="alert alert-dismissible alert-danger text-center" *ngIf="finished">
+    End of Database!
+</div>
+
+
