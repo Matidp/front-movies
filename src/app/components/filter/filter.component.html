@@ -1,0 +1,55 @@
+
+<div class="container">
+    <form [formGroup]="filters" (ngSubmit)="doFilter()">
+        <div class="row">
+            <div class="col">
+                <label>
+                    <span>Title: </span>
+                    <input
+                        type="text"
+                        placeholder="Title of the movie"
+                        formControlName="title">
+                </label> <br>
+            </div>
+            <div class="col">
+                <label>
+                    <span>Year: </span>
+                    <input
+                        type="number"
+                        placeholder=""
+                        formControlName="year">
+                </label> <br>
+            </div>
+            <div class="col">
+                <label>
+                    <span>Genre: </span>
+                    <select class="form-control" id="Genre" formControlName="genre">
+                        <option>action</option>
+                        <option>Sci-Fi</option>
+                        <option>Adventure</option>
+                        <option>Fantasy</option>
+                        <option>Thriller</option>
+                        <option>Comedy</option>
+                        <option>Animation</option>
+                        <option>Horror</option>
+                        <option>Mystery</option>
+                        <option>Drama</option>
+                        <option>Biography</option>
+                        <option>Western</option>
+                        <option>Romance</option>
+                        <option>Crime</option>
+                        <option>History</option>
+                        <option>War</option>
+                        <option>Musical</option>
+                        <option>Family</option>
+                    </select>
+                </label> <br>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col text-right">
+                <button type="submit">Filter</button>
+            </div>
+        </div>
+    </form>
+</div>

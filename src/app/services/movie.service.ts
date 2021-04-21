@@ -23,11 +23,19 @@ export class MovieService {
     return this.movies;
   }
 
-  getMovies(batch, lastKey?) {
+  getMovies(batch, lastKey?, filter?) {
     
     let params = new HttpParams();
     params = params.append('orderByKey', 'true');
     params = params.append('limitToFirst', batch);
+    console.log("desde service", filter);
+    
+    if (filter) {
+      params = params.append('genre', filter.genre);
+      params = params.append('year', filter.year);
+      params = params.append('title', filter.title);
+    } 
+
 
     if (lastKey) params = params.append('startAt', lastKey);
 

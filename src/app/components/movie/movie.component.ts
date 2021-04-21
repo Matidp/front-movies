@@ -25,6 +25,7 @@ export class MovieComponent implements OnInit {
   lastKey = 0;
   finished = false;
   lastId;
+  filter;
 
   constructor(public movieService: MovieService) {}
 
@@ -39,40 +40,69 @@ export class MovieComponent implements OnInit {
   }
 
   private getMovies(key?) {
-    /*
+    if (this.finished) return;
+    if (this.filter) {
+      this.movieService.getMovies(this.batch, this.lastKey, this.filter)
+      .pipe(
+        tap( movies => {
+          console.log(_.last(movies.body)["_id"])
+          if (this.lastId == _.last(movies.body)["_id"]) {
+            this.finished = true;
+          }
+          this.lastId = _.last(movies.body)["_id"];
+        })
+      )
       .subscribe(
         res => {
-          this.movieService.movies = res;
-          console.log(res);
-        },
-        err => console.log(err)
-      )
-    */
 
-   
-    if (this.finished) return;
-    
-    this.lastKey += 40;
-
-    this.movieService.getMovies(this.batch, this.lastKey)
-    .pipe(
-      tap( movies => {
-        console.log(_.last(movies.body)["_id"])
-        if (this.lastId == _.last(movies.body)["_id"]) {
-          this.finished = true;
+          if (this.lastKey == 0) {
+            var currentMovies = {};
+          } else {
+            currentMovies = this.movies.value;
+          }
+  
+          this.movies.next(_.concat(currentMovies, res.body));
+          
+          this.movieService.movies = this.movies.value;
         }
-        this.lastId = _.last(movies.body)["_id"];
-      })
-    )
-    .subscribe(
-      res => {
-        const currentMovies = this.movies.value;
+      )
+    }
+    else {
+      this.movieService.getMovies(this.batch, this.lastKey)
+      .pipe(
+        tap( movies => {
+          console.log(_.last(movies.body)["_id"])
+          if (this.lastId == _.last(movies.body)["_id"]) {
+            this.finished = true;
+          }
+          this.lastId = _.last(movies.body)["_id"];
+        })
+      )
+      .subscribe(
+        res => {
+          const currentMovies = this.movies.value;
+  
+          this.movies.next(_.concat(currentMovies, res.body));
+          
+          this.movieService.movies = this.movies.value;
+        }
+      )
+    }
+    this.lastKey += 40;
+  }
 
-        this.movies.next(_.concat(currentMovies, res.body));
-        
-        this.movieService.movies = this.movies.value;
-      }
-    )
+  onFilter(filters: any){
+    console.log("parent working")
+    console.log(filters);
+    if(filters.genre == '' && filters.title == '' && filters.year == '') return;
+    this.lastKey = 0;
+    this.movieService.movies
+    this.filter = filters;
+  }
+
+}
+
+
 
     /*
     this.movieService
@@ -94,6 +124,14 @@ export class MovieComponent implements OnInit {
         take(1)
       )
       .subscribe();
-      */
-  }
-}
+    */
+
+    /*
+      .subscribe(
+        res => {
+          this.movieService.movies = res;
+          console.log(res);
+        },
+        err => console.log(err)
+      )
+    */
