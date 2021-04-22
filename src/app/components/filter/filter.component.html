@@ -1,16 +1,23 @@
 
 <div class="container">
     <form [formGroup]="filters" (ngSubmit)="doFilter()">
-        <div class="row">
-            <div class="col">
-                <label>
-                    <span>Title: </span>
-                    <input
-                        type="text"
-                        placeholder="Title of the movie"
-                        formControlName="title">
-                </label> <br>
-            </div>
+        <label>
+            <p class="lead">Search the movie that you like</p>
+            <input
+                type="text"
+                placeholder="Title of the movie"
+                formControlName="title"
+                class="form-control form-control-lg">
+        </label>        
+        <div class="text-right">
+            <button type="submit" class="btn btn-info">Search</button>
+        </div>
+    </form>
+</div>
+
+<!--
+
+            
             <div class="col">
                 <label>
                     <span>Year: </span>
@@ -46,10 +53,4 @@
                 </label> <br>
             </div>
         </div>
-        <div class="row">
-            <div class="col text-right">
-                <button type="submit">Filter</button>
-            </div>
-        </div>
-    </form>
-</div>
+        -->

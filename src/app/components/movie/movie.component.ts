@@ -28,6 +28,7 @@ export class MovieComponent implements OnInit {
   finished = false;
   lastId;
   filter;
+  movieEmpty = false;
 
   constructor(public movieService: MovieService) {}
 
@@ -72,22 +73,21 @@ export class MovieComponent implements OnInit {
     this.movieService.getMoviesFiltered(this.batch, this.filter, this.lastKey)
     .pipe(
       tap( movies => {
-        console.log(_.last(movies.body)["_id"])
-        if (this.lastId == _.last(movies.body)["_id"]) {
-          this.finished = true;
-        }
-        this.lastId = _.last(movies.body)["_id"];
-        if (this.lastKey == 0) {
-          this.movieService.movies = []
+        if (_.size(movies.body) != 0){
+          console.log(_.last(movies.body)["_id"])
+          if (this.lastId == _.last(movies.body)["_id"]) {
+            this.finished = true;
+          }
+          this.lastId = _.last(movies.body)["_id"];
+          if (this.lastKey == 0) {
+            this.movieService.movies = []
+          }
         }
       })
     )
     .subscribe(
       res => {
         if (this.lastKey == 0) {
-          if(res.body == []) {
-            
-          }
           console.log("entre aca")
           this.movieService.movies = res.body;
         } else {
@@ -97,6 +97,13 @@ export class MovieComponent implements OnInit {
         }
         console.log(this.movieService.movies);
         this.lastKey += 40;
+
+        if(this.movieService.movies.length == 0) {
+          this.movieEmpty = true;
+        }
+        else {
+          this.movieEmpty = false;
+        }
       }
     )
   }

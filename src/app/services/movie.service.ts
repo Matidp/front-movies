@@ -49,7 +49,6 @@ export class MovieService {
 
     return this.http.get<MoviePresentation[]>(this.URL_FILTER, { params: params,
     observe: 'response'});
-
   }
 
 
