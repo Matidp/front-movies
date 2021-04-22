@@ -25,7 +25,6 @@ export class FilterComponent implements OnInit {
   doFilter() {
     this.filter.emit(this.filters.value)
     this.didFilter = true;
-    console.log("filter Working")
   }
 
   ngOnInit(): void {

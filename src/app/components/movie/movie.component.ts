@@ -20,6 +20,8 @@ export class MovieComponent implements OnInit {
     info: 'table-info',
   };
 
+  
+
   movies = new BehaviorSubject([]);
   batch = 40;
   lastKey = 0;
@@ -39,56 +41,64 @@ export class MovieComponent implements OnInit {
     this.getMovies();
   }
 
-  private getMovies(key?) {
+  private getMovies() {
     if (this.finished) return;
-    if (this.filter) {
-      this.movieService.getMovies(this.batch, this.lastKey, this.filter)
-      .pipe(
-        tap( movies => {
-          console.log(_.last(movies.body)["_id"])
-          if (this.lastId == _.last(movies.body)["_id"]) {
-            this.finished = true;
-          }
-          this.lastId = _.last(movies.body)["_id"];
-        })
-      )
-      .subscribe(
-        res => {
+    if (this.filter) return this.onFilter(this.filter); 
+    this.movieService.getMovies(this.batch, this.lastKey)
+    .pipe(
+      tap( movies => {
+        console.log(_.last(movies.body)["_id"])
+        if (this.lastId == _.last(movies.body)["_id"]) {
+          this.finished = true;
+        }
+        this.lastId = _.last(movies.body)["_id"];
+      })
+    )
+    .subscribe(
+      res => {
+        const currentMovies = this.movies.value;
 
-          if (this.lastKey == 0) {
-            var currentMovies = {};
-          } else {
-            currentMovies = this.movies.value;
-          }
-  
-          this.movies.next(_.concat(currentMovies, res.body));
-          
-          this.movieService.movies = this.movies.value;
-        }
-      )
-    }
-    else {
-      this.movieService.getMovies(this.batch, this.lastKey)
-      .pipe(
-        tap( movies => {
-          console.log(_.last(movies.body)["_id"])
-          if (this.lastId == _.last(movies.body)["_id"]) {
-            this.finished = true;
-          }
-          this.lastId = _.last(movies.body)["_id"];
-        })
-      )
-      .subscribe(
-        res => {
-          const currentMovies = this.movies.value;
-  
-          this.movies.next(_.concat(currentMovies, res.body));
-          
-          this.movieService.movies = this.movies.value;
-        }
-      )
-    }
+        this.movies.next(_.concat(currentMovies, res.body));
+        
+        this.movieService.movies = this.movies.value;
+      }
+    )
     this.lastKey += 40;
+  }
+
+  private getMoviesFiltered() {
+    console.log(this.lastKey);
+    if (this.finished) return;
+    this.movieService.getMoviesFiltered(this.batch, this.filter, this.lastKey)
+    .pipe(
+      tap( movies => {
+        console.log(_.last(movies.body)["_id"])
+        if (this.lastId == _.last(movies.body)["_id"]) {
+          this.finished = true;
+        }
+        this.lastId = _.last(movies.body)["_id"];
+        if (this.lastKey == 0) {
+          this.movieService.movies = []
+        }
+      })
+    )
+    .subscribe(
+      res => {
+        if (this.lastKey == 0) {
+          if(res.body == []) {
+            
+          }
+          console.log("entre aca")
+          this.movieService.movies = res.body;
+        } else {
+          const currentMovies = this.movies.value;
+          this.movies.next(_.concat(currentMovies, res.body));
+          this.movieService.movies = this.movies.value;
+        }
+        console.log(this.movieService.movies);
+        this.lastKey += 40;
+      }
+    )
   }
 
   onFilter(filters: any){
@@ -96,8 +106,8 @@ export class MovieComponent implements OnInit {
     console.log(filters);
     if(filters.genre == '' && filters.title == '' && filters.year == '') return;
     this.lastKey = 0;
-    this.movieService.movies
     this.filter = filters;
+    this.getMoviesFiltered();
   }
 
 }
