@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-nav',
@@ -8,6 +8,12 @@ import { Component, OnInit } from '@angular/core';
 export class NavComponent implements OnInit {
 
   constructor() { }
+
+  @Output() refresh = new EventEmitter<any>();
+
+  doRefresh() {
+    this.refresh.emit(true);
+  }
 
   ngOnInit(): void {
   }

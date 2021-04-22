@@ -1,4 +1,4 @@
 
-<app-nav></app-nav>
+<app-nav (refreshEvent)="onRefresh($event)"></app-nav>
 
-<app-movie></app-movie>
+<app-movie [refresh]="refreshEvent"></app-movie>

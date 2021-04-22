@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { MovieService } from '../../services/movie.service';
-
 
 import { BehaviorSubject, Observable } from 'rxjs';
 import { tap, take } from 'rxjs/operators';
@@ -20,7 +19,7 @@ export class MovieComponent implements OnInit {
     info: 'table-info',
   };
 
-  
+  @Input() refresh: boolean;
 
   movies = new BehaviorSubject([]);
   batch = 40;
@@ -36,59 +35,58 @@ export class MovieComponent implements OnInit {
     this.getMovies();
   }
 
+  ngOnChanges(): void {
+    if(this.refresh){
+      this.lastKey = 0;
+      this.getMovies();
+      this.refresh = false;
+    }
+  }
+
   onScroll() {
     console.log('scrolled!');
-    
+
     this.getMovies();
   }
 
   private getMovies() {
     if (this.finished) return;
-    if (this.filter) return this.onFilter(this.filter); 
-    this.movieService.getMovies(this.batch, this.lastKey)
-    .pipe(
-      tap( movies => {
-        console.log(_.last(movies.body)["_id"])
-        if (this.lastId == _.last(movies.body)["_id"]) {
-          this.finished = true;
-        }
-        this.lastId = _.last(movies.body)["_id"];
-      })
-    )
-    .subscribe(
-      res => {
+    if (this.filter) return this.onFilter(this.filter);
+    this.movieService
+      .getMovies(this.batch, this.lastKey)
+      .pipe(
+        tap((movies) => {
+          console.log(_.last(movies.body)['_id']);
+          if (this.lastId == _.last(movies.body)['_id']) {
+            this.finished = true;
+          }
+          this.lastId = _.last(movies.body)['_id'];
+        })
+      )
+      .subscribe((res) => {
         const currentMovies = this.movies.value;
 
         this.movies.next(_.concat(currentMovies, res.body));
-        
+
         this.movieService.movies = this.movies.value;
-      }
-    )
+      });
     this.lastKey += 40;
   }
 
   private getMoviesFiltered() {
     console.log(this.lastKey);
     if (this.finished) return;
-    this.movieService.getMoviesFiltered(this.batch, this.filter, this.lastKey)
-    .pipe(
-      tap( movies => {
-        if (_.size(movies.body) != 0){
-          console.log(_.last(movies.body)["_id"])
-          if (this.lastId == _.last(movies.body)["_id"]) {
-            this.finished = true;
-          }
-          this.lastId = _.last(movies.body)["_id"];
+    this.movieService
+      .getMoviesFiltered(this.batch, this.filter, this.lastKey)
+      .pipe(
+        tap((movies) => {
           if (this.lastKey == 0) {
-            this.movieService.movies = []
+            this.movieService.movies = [];
           }
-        }
-      })
-    )
-    .subscribe(
-      res => {
+        })
+      )
+      .subscribe((res) => {
         if (this.lastKey == 0) {
-          console.log("entre aca")
           this.movieService.movies = res.body;
         } else {
           const currentMovies = this.movies.value;
@@ -97,31 +95,26 @@ export class MovieComponent implements OnInit {
         }
         console.log(this.movieService.movies);
         this.lastKey += 40;
-
-        if(this.movieService.movies.length == 0) {
+        if (this.movieService.movies.length == 0) {
           this.movieEmpty = true;
-        }
-        else {
+        } else {
           this.movieEmpty = false;
         }
-      }
-    )
+      });
   }
 
-  onFilter(filters: any){
-    console.log("parent working")
+  onFilter(filters: any) {
+    console.log('parent working');
     console.log(filters);
-    if(filters.genre == '' && filters.title == '' && filters.year == '') return;
+    if (filters.genre == '' && filters.title == '' && filters.year == '')
+      return;
     this.lastKey = 0;
     this.filter = filters;
     this.getMoviesFiltered();
   }
-
 }
 
-
-
-    /*
+/*
     this.movieService
       .getMovies(this.batch + 1, this.lastKey)
       .pipe(
@@ -143,7 +136,7 @@ export class MovieComponent implements OnInit {
       .subscribe();
     */
 
-    /*
+/*
       .subscribe(
         res => {
           this.movieService.movies = res;

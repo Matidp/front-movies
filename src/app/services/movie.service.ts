@@ -8,6 +8,7 @@ import { Movie, MoviePresentation } from '../models/movie';
 export class MovieService {
   URL_API = 'http://localhost:4000/api/movies';
   URL_FILTER = 'http://localhost:4000/api/movies/filter';
+  URL_MOVIE_ID;
 
   movie: Movie[];
   movies: MoviePresentation[];
