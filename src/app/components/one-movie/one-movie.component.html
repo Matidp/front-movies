@@ -1,5 +1,176 @@
 
+
+
 <div *ngIf="movieService.movie as movie">
+    <div *ngIf="(movie.plot != 'Plot is unknown.' && movie.plot != undefined ); then thenBlock else elseBlock"></div>
+    <ng-template #thenBlock>
+
+        <div class="container py-4 ">
+            <h1 class="pb-3 mb-4 border-bottom text-center">{{movie.title}}</h1>
+            <div class="p-5 mb-4 bg-light rounded-3 row rounded">
+                <div class="container-fluid py-5 col-md-6 ">
+                    <h4 class="display-5 fw-bold"> Plot: </h4>
+                    <blockquote class="blockquote text-right ">
+                        <p class="col-md-8 fs-4">
+                            {{movie.plot}}
+                        </p>
+                    </blockquote>
+                </div>
+                <div class="container-fluid py-5 col-md-3">
+                    <p>
+                        Genres: 
+                        <span *ngFor="let genre of movie.genres; let last = last">
+                            <span *ngIf="last">
+                                {{genre}}
+                            </span>
+                            <span *ngIf="!last">
+                                {{genre}},
+                            </span>
+                        </span> 
+                    </p>
+                    <p>
+                        Directors:
+                        <span *ngFor="let director of movie.directors; let last = last">
+                            <span *ngIf="last">
+                                {{director}}
+                            </span>
+                            <span *ngIf="!last">
+                                {{director}},
+                            </span>
+                        </span> 
+                    </p>
+                    <p>
+                        Countries:
+                        <span *ngFor="let countrie of movie.countries; let last = last">
+                            <span *ngIf="last">
+                                {{countrie}}
+                            </span>
+                            <span *ngIf="!last">
+                                {{countrie}},
+                            </span>
+                        </span> 
+                    </p>
+                    <p *ngIf="movie.writers">
+                        Writters:
+                        <span *ngFor="let writer of movie.writers; let last = last">
+                            <span *ngIf="last">
+                                {{writer}}
+                            </span>
+                            <span *ngIf="!last">
+                                {{writer}},
+                            </span>
+                        </span> 
+                    </p>
+                    <p>
+                        Year: {{movie.year}}
+                    </p>
+                </div>
+            </div>
+            <div class="row align-items-md-stretch">
+                <div class="col-md-6" *ngIf="movie.cast.length != 0">
+                    <div class="h-100 p-5 text-white bg-info rounded shadow">
+                        <h2>Starring</h2>
+                        <ul *ngFor="let actor of movie.cast" class="list-group">
+                            <li class="text-center">
+                                - {{actor}}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="p-5 text-white bg-danger rounded shadow">
+                        <div>
+                            <h5 class="text-left">More information:</h5>
+                        </div>
+                        <div class="text-right">
+                            <a href="https://www.imdb.com/title/tt{{movie.imdb.id}}" class="btn btn-light">Imdb Link</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+    </ng-template>
+
+    <ng-template #elseBlock>
+        <div class="container py-4 ">
+            <h1 class="pb-3 mb-4 border-bottom text-center">{{movie.title}}</h1>
+            <div class="p-5 mb-4 bg-light rounded-3 row rounded">
+                <div class="container-fluid py-5 col-md-6">
+                    <h2>Starring</h2>
+                        <ul *ngFor="let actor of movie.cast" class="list-group">
+                            <li class="text-center">
+                                - {{actor}}
+                            </li>
+                        </ul>
+                </div>
+                <div class="container-fluid py-5 col-md-3">
+                    <p>
+                        Genres: 
+                        <span *ngFor="let genre of movie.genres; let last = last">
+                            <span *ngIf="last">
+                                {{genre}}
+                            </span>
+                            <span *ngIf="!last">
+                                {{genre}},
+                            </span>
+                        </span> 
+                    </p>
+                    <p>
+                        Directors:
+                        <span *ngFor="let director of movie.directors; let last = last">
+                            <span *ngIf="last">
+                                {{director}}
+                            </span>
+                            <span *ngIf="!last">
+                                {{director}},
+                            </span>
+                        </span> 
+                    </p>
+                    <p>
+                        Countries:
+                        <span *ngFor="let countrie of movie.countries; let last = last">
+                            <span *ngIf="last">
+                                {{countrie}}
+                            </span>
+                            <span *ngIf="!last">
+                                {{countrie}},
+                            </span>
+                        </span> 
+                    </p>
+                    <p *ngIf="movie.writers">
+                        Writters:
+                        <span *ngFor="let writer of movie.writers; let last = last">
+                            <span *ngIf="last">
+                                {{writer}}
+                            </span>
+                            <span *ngIf="!last">
+                                {{writer}},
+                            </span>
+                        </span> 
+                    </p>
+                    <p>
+                        Year: {{movie.year}}
+                    </p>
+                </div>
+                
+            </div>
+
+            <div class="col-md-6 ">
+                <div class="p-5 text-white bg-danger rounded shadow">
+                    <div>
+                        <h5 class="text-left">More information:</h5>
+                    </div>
+                    <div class="text-right">
+                        <a href="https://www.imdb.com/title/tt{{movie.imdb.id}}" class="btn btn-light">Imdb Link</a>
+                    </div>
+                </div>
+            </div>
+
+</div>
+
+<!--
+
     <div class="container ">
         <div class="row d-flex">
 
@@ -7,23 +178,27 @@
                 <div class="card mb-3">
                     <h3 class="card-header">{{movie.title}}</h3>
                     <div class="card-body">
-                        <h5 class="card-title">Special title treatment</h5>
-                        <h6 class="card-subtitle text-muted">Support card subtitle</h6>
+                        <h5 class="text-left">starring:</h5>
+                        <div *ngFor="let person of movie.cast" id="menu">
+                        
+                            <li class="card-title">{{person}}</li>
+                        </div>
                     </div>
                     <svg xmlns="http://www.w3.org/2000/svg" class="d-block user-select-none" width="100%" height="200" aria-label="Placeholder: Image cap" focusable="false" role="img" preserveAspectRatio="xMidYMid slice" viewBox="0 0 318 180" style="font-size:1.125rem;text-anchor:middle">
                         <rect width="100%" height="100%" fill="#868e96"></rect>
                         <text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text>
                     </svg>
-                    <div class="card-body">
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <div class="card-body" *ngIf="movie.plot != 'Plot is unknown.'">
+                        <p class="card-text">{{movie.plot}}</p>
                     </div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">Cras justo odio</li>
                         <li class="list-group-item">Dapibus ac facilisis in</li>
                         <li class="list-group-item">Vestibulum at eros</li>
                     </ul>
-                    <div class="card-body">
-                        <a href="#" class="card-link">Card link</a>
+                    <div class="card-body" *ngIf="movie.imdb.id">
+                        <h5 class="text-left">If you want more information:</h5>
+                        <a href="https://www.imdb.com/title/tt{{movie.imdb.id}}" class="card-link">Imdb Link</a>
                         <a href="#" class="card-link">Another link</a>
                     </div>
                     <div *ngIf="movie.lastupdated != undefined" class="card-footer text-muted">
@@ -34,4 +209,4 @@
         </div>
     </div>
 
-</div>
+-->

@@ -52,7 +52,10 @@ export class MovieComponent implements OnInit {
 
   private getMovies() {
     if (this.finished) return;
-    if (this.filter) return this.onFilter(this.filter);
+    if (this.filter) {
+      this.getMoviesFiltered();
+      return;
+    }
     this.movieService
       .getMovies(this.batch, this.lastKey)
       .pipe(
@@ -87,8 +90,10 @@ export class MovieComponent implements OnInit {
         })
       )
       .subscribe((res) => {
+
         if (this.lastKey == 0) {
           this.movieService.movies = res.body;
+          this.movies.next(res.body);
         } else {
           const currentMovies = this.movies.value;
           this.movies.next(_.concat(currentMovies, res.body));
@@ -96,6 +101,7 @@ export class MovieComponent implements OnInit {
         }
         console.log(this.movieService.movies);
         this.lastKey += 40;
+        console.log(this.lastKey)
         if (this.movieService.movies.length == 0) {
           this.movieEmpty = true;
         } else {
@@ -111,6 +117,7 @@ export class MovieComponent implements OnInit {
       return;
     this.lastKey = 0;
     this.filter = filters;
+
     this.getMoviesFiltered();
   }
 
