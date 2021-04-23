@@ -8,13 +8,15 @@ import { AppComponent } from './app.component';
 import { MovieComponent } from './components/movie/movie.component';
 import { NavComponent } from './components/nav/nav.component';
 import { FilterComponent } from './components/filter/filter.component';
+import { OneMovieComponent } from './components/one-movie/one-movie.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MovieComponent,
     NavComponent,
-    FilterComponent
+    FilterComponent,
+    OneMovieComponent
   ],
   imports: [
     BrowserModule,

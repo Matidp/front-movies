@@ -1,4 +1,17 @@
+<div *ngIf="!OneMovie; then thenBlock else elseBlock"></div>
 
-<app-nav (refreshEvent)="onRefresh($event)"></app-nav>
+<ng-template #thenBlock>
+    <div>
+        <app-nav (refreshEvent)="onRefresh($event)"></app-nav>
+        
+        <app-movie [refresh]="refreshEvent" (OneMovie)="OneMovieEvent($event)"></app-movie>
+    </div>
+</ng-template>
 
-<app-movie [refresh]="refreshEvent"></app-movie>
+<ng-template #elseBlock>
+    <div>
+        <app-nav (refreshEvent)="onRefresh($event)"></app-nav>
+
+        <app-one-movie [id]="OneMovieId"></app-one-movie>
+    </div>
+</ng-template>

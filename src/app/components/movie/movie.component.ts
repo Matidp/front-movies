@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { MovieService } from '../../services/movie.service';
 
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -20,6 +20,7 @@ export class MovieComponent implements OnInit {
   };
 
   @Input() refresh: boolean;
+  @Output() OneMovie = new EventEmitter<any>();
 
   movies = new BehaviorSubject([]);
   batch = 40;
@@ -111,6 +112,15 @@ export class MovieComponent implements OnInit {
     this.lastKey = 0;
     this.filter = filters;
     this.getMoviesFiltered();
+  }
+
+  OneMovieEvent(id) {
+    let set = {
+      id: id,
+      value: true,
+    }
+    this.OneMovie.emit(set);
+    console.log(set);
   }
 }
 

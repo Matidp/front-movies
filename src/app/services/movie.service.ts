@@ -8,7 +8,7 @@ import { Movie, MoviePresentation } from '../models/movie';
 export class MovieService {
   URL_API = 'http://localhost:4000/api/movies';
   URL_FILTER = 'http://localhost:4000/api/movies/filter';
-  URL_MOVIE_ID;
+
 
   movie: Movie[];
   movies: MoviePresentation[];
@@ -26,15 +26,16 @@ export class MovieService {
   }
 
   getMovies(batch, lastKey?) {
-    
     let params = new HttpParams();
     params = params.append('orderByKey', 'true');
     params = params.append('limitToFirst', batch);
 
     if (lastKey) params = params.append('startAt', lastKey);
 
-    return this.http.get<MoviePresentation[]>(this.URL_API, { params: params,
-    observe: 'response'});
+    return this.http.get<MoviePresentation[]>(this.URL_API, {
+      params: params,
+      observe: 'response',
+    });
   }
 
   getMoviesFiltered(batch, filter, lastKey?) {
@@ -44,13 +45,24 @@ export class MovieService {
     params = params.append('genre', filter.genre);
     params = params.append('year', filter.year);
     params = params.append('title', filter.title);
-    console.log("filter working front")
-    
+    console.log('filter working front');
+
     if (lastKey) params = params.append('startAt', lastKey);
 
-    return this.http.get<MoviePresentation[]>(this.URL_FILTER, { params: params,
-    observe: 'response'});
+    return this.http.get<MoviePresentation[]>(this.URL_FILTER, {
+      params: params,
+      observe: 'response',
+    });
   }
 
-
+  getMovieById(id) {
+    let URL_MOVIE_ID = `http://localhost:4000/api/movies/${id}`
+    let params = new HttpParams();
+    params = params.append('Id', id);
+    console.log("GetMovieById llamado front");
+    return this.http.get<Movie[]>(URL_MOVIE_ID, {
+      params: params,
+      observe: 'response',
+    });
+  }
 }

@@ -16,13 +16,13 @@
                     <th scope="col">countries</th>
                 </tr>
             </thead>
-            <tbody *ngFor="let movie of movieService.movies ; let i=index ">
+            <tbody *ngFor="let movie of movieService.movies ; let i=index">
                 <tr [ngClass]="(i%4===0) ? 'table-primary':
                     (i%4===1) ? 'table-secondary' :
                     (i%4===2) ? 'table-success' : 
                     (i%4===3) ? 'table-warning':
                     'table-info'">
-                    <th scope="row">{{movie.title}}</th>
+                    <th scope="row"> <button (click)="OneMovieEvent(movie._id)">{{movie.title}}</button></th>
                     
                     <td>
                         <ul>
