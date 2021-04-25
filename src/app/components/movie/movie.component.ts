@@ -37,7 +37,7 @@ export class MovieComponent implements OnInit {
   }
 
   ngOnChanges(): void {
-    if(this.refresh){
+    if (this.refresh) {
       this.lastKey = 0;
       this.getMovies();
       this.refresh = false;
@@ -90,7 +90,6 @@ export class MovieComponent implements OnInit {
         })
       )
       .subscribe((res) => {
-
         if (this.lastKey == 0) {
           this.movieService.movies = res.body;
           this.movies.next(res.body);
@@ -101,7 +100,7 @@ export class MovieComponent implements OnInit {
         }
         console.log(this.movieService.movies);
         this.lastKey += 40;
-        console.log(this.lastKey)
+        console.log(this.lastKey);
         if (this.movieService.movies.length == 0) {
           this.movieEmpty = true;
         } else {
@@ -125,40 +124,8 @@ export class MovieComponent implements OnInit {
     let set = {
       id: id,
       value: true,
-    }
+    };
     this.OneMovie.emit(set);
     console.log(set);
   }
 }
-
-/*
-    this.movieService
-      .getMovies(this.batch + 1, this.lastKey)
-      .pipe(
-        tap((movies) => {
-          console.log(_.last(movies)['$key'])
-          this.lastKey = _.last(movies)['$key'];
-          const newMovies = _.slice(movies, 0, this.batch);
-
-          const currentMovies = this.movies.getValue();
-
-          if (this.lastKey == _.last(newMovies)['$key']) {
-            this.finished = true;
-          }
-
-          this.movies.next(_.concat(currentMovies, newMovies));
-        }),
-        take(1)
-      )
-      .subscribe();
-    */
-
-/*
-      .subscribe(
-        res => {
-          this.movieService.movies = res;
-          console.log(res);
-        },
-        err => console.log(err)
-      )
-    */

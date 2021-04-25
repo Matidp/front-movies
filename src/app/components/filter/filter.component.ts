@@ -31,28 +31,3 @@ export class FilterComponent implements OnInit {
   }
 
 }
-
-
-  /*
-  genre: String = '';
-  year: Number;
-  title: String;
-  */
-  /*
-  chooseGenre(genre: String) {
-    if (genre == '') return;
-    //this.genre = genre;
-    this.letsFilter();
-  }
-
-  chooseYear(year: Number) {
-    //this.year = year;
-    this.letsFilter();
-  }
-
-  chooseTitle(title: String) {
-    if (title == '') return;
-    //this.title = title;
-    this.letsFilter();
-  }
-  */

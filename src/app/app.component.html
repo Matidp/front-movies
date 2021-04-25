@@ -3,7 +3,7 @@
 <ng-template #thenBlock>
     <div>
         <app-nav (refreshEvent)="onRefresh($event)"></app-nav>
-        
+
         <app-movie [refresh]="refreshEvent" (OneMovie)="OneMovieEvent($event)"></app-movie>
     </div>
 </ng-template>

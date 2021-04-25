@@ -9,17 +9,10 @@ export class MovieService {
   URL_API = 'http://localhost:4000/api/movies';
   URL_FILTER = 'http://localhost:4000/api/movies/filter';
 
-
   movie: Movie[];
   movies: MoviePresentation[];
 
   constructor(private http: HttpClient) {}
-
-  /*
-  getMovies() {
-    return this.http.get<MoviePresentation[]>(this.URL_API);
-  }
-  */
 
   getListOfMovies() {
     return this.movies;
@@ -56,10 +49,10 @@ export class MovieService {
   }
 
   getMovieById(id) {
-    let URL_MOVIE_ID = `http://localhost:4000/api/movies/${id}`
+    let URL_MOVIE_ID = `http://localhost:4000/api/movies/${id}`;
     let params = new HttpParams();
     params = params.append('Id', id);
-    console.log("GetMovieById llamado front");
+    console.log('GetMovieById llamado front');
     return this.http.get<Movie[]>(URL_MOVIE_ID, {
       params: params,
       observe: 'response',

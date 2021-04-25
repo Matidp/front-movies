@@ -1,6 +1,3 @@
-
-
-
 <div *ngIf="movieService.movie as movie">
     <div *ngIf="(movie.plot != 'Plot is unknown.' && movie.plot != undefined ); then thenBlock else elseBlock"></div>
     <ng-template #thenBlock>
@@ -18,7 +15,7 @@
                 </div>
                 <div class="container-fluid py-5 col-md-3">
                     <p>
-                        Genres: 
+                        Genres:
                         <span *ngFor="let genre of movie.genres; let last = last">
                             <span *ngIf="last">
                                 {{genre}}
@@ -26,7 +23,7 @@
                             <span *ngIf="!last">
                                 {{genre}},
                             </span>
-                        </span> 
+                        </span>
                     </p>
                     <p>
                         Directors:
@@ -37,7 +34,7 @@
                             <span *ngIf="!last">
                                 {{director}},
                             </span>
-                        </span> 
+                        </span>
                     </p>
                     <p>
                         Countries:
@@ -48,7 +45,7 @@
                             <span *ngIf="!last">
                                 {{countrie}},
                             </span>
-                        </span> 
+                        </span>
                     </p>
                     <p *ngIf="movie.writers">
                         Writters:
@@ -59,7 +56,7 @@
                             <span *ngIf="!last">
                                 {{writer}},
                             </span>
-                        </span> 
+                        </span>
                     </p>
                     <p>
                         Year: {{movie.year}}
@@ -89,7 +86,7 @@
                 </div>
             </div>
         </div>
-    
+
     </ng-template>
 
     <ng-template #elseBlock>
@@ -98,15 +95,15 @@
             <div class="p-5 mb-4 bg-light rounded-3 row rounded">
                 <div class="container-fluid py-5 col-md-6">
                     <h2>Starring</h2>
-                        <ul *ngFor="let actor of movie.cast" class="list-group">
-                            <li class="text-center">
-                                - {{actor}}
-                            </li>
-                        </ul>
+                    <ul *ngFor="let actor of movie.cast" class="list-group">
+                        <li class="text-center">
+                            - {{actor}}
+                        </li>
+                    </ul>
                 </div>
                 <div class="container-fluid py-5 col-md-3">
                     <p>
-                        Genres: 
+                        Genres:
                         <span *ngFor="let genre of movie.genres; let last = last">
                             <span *ngIf="last">
                                 {{genre}}
@@ -114,7 +111,7 @@
                             <span *ngIf="!last">
                                 {{genre}},
                             </span>
-                        </span> 
+                        </span>
                     </p>
                     <p>
                         Directors:
@@ -125,7 +122,7 @@
                             <span *ngIf="!last">
                                 {{director}},
                             </span>
-                        </span> 
+                        </span>
                     </p>
                     <p>
                         Countries:
@@ -136,7 +133,7 @@
                             <span *ngIf="!last">
                                 {{countrie}},
                             </span>
-                        </span> 
+                        </span>
                     </p>
                     <p *ngIf="movie.writers">
                         Writters:
@@ -147,13 +144,13 @@
                             <span *ngIf="!last">
                                 {{writer}},
                             </span>
-                        </span> 
+                        </span>
                     </p>
                     <p>
                         Year: {{movie.year}}
                     </p>
                 </div>
-                
+
             </div>
 
             <div class="col-md-6 ">
@@ -167,46 +164,4 @@
                 </div>
             </div>
 
-</div>
-
-<!--
-
-    <div class="container ">
-        <div class="row d-flex">
-
-            <div class="col-sm text-center">
-                <div class="card mb-3">
-                    <h3 class="card-header">{{movie.title}}</h3>
-                    <div class="card-body">
-                        <h5 class="text-left">starring:</h5>
-                        <div *ngFor="let person of movie.cast" id="menu">
-                        
-                            <li class="card-title">{{person}}</li>
-                        </div>
-                    </div>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="d-block user-select-none" width="100%" height="200" aria-label="Placeholder: Image cap" focusable="false" role="img" preserveAspectRatio="xMidYMid slice" viewBox="0 0 318 180" style="font-size:1.125rem;text-anchor:middle">
-                        <rect width="100%" height="100%" fill="#868e96"></rect>
-                        <text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text>
-                    </svg>
-                    <div class="card-body" *ngIf="movie.plot != 'Plot is unknown.'">
-                        <p class="card-text">{{movie.plot}}</p>
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">Cras justo odio</li>
-                        <li class="list-group-item">Dapibus ac facilisis in</li>
-                        <li class="list-group-item">Vestibulum at eros</li>
-                    </ul>
-                    <div class="card-body" *ngIf="movie.imdb.id">
-                        <h5 class="text-left">If you want more information:</h5>
-                        <a href="https://www.imdb.com/title/tt{{movie.imdb.id}}" class="card-link">Imdb Link</a>
-                        <a href="#" class="card-link">Another link</a>
-                    </div>
-                    <div *ngIf="movie.lastupdated != undefined" class="card-footer text-muted">
-                        Last Updated: {{movie.lastupdated}}
-                    </div>
-                </div>
-            </div>
         </div>
-    </div>
-
--->
